@@ -7,6 +7,62 @@ const options = {
   wordwrap: 130,
 };
 
+//-- fonction sendMessage.
+function sendMessage(request) {
+  //showNowPrinting();
+  var url              = document.getElementById('url').value;
+  var papertype        = document.getElementById('papertype').value;
+
+  var trader = new StarWebPrintTrader({url:url, papertype:papertype});
+
+  trader.onReceive = function (response) {
+      hideNowPrinting();
+
+      var msg = '- onReceive -\n\n';
+
+      msg += 'TraderSuccess : [ ' + response.traderSuccess + ' ]\n';
+
+//      msg += 'TraderCode : [ ' + response.traderCode + ' ]\n';
+
+      msg += 'TraderStatus : [ ' + response.traderStatus + ',\n';
+
+      if (trader.isCoverOpen            ({traderStatus:response.traderStatus})) {msg += '\tCoverOpen,\n';}
+      if (trader.isOffLine              ({traderStatus:response.traderStatus})) {msg += '\tOffLine,\n';}
+      if (trader.isCompulsionSwitchClose({traderStatus:response.traderStatus})) {msg += '\tCompulsionSwitchClose,\n';}
+      if (trader.isEtbCommandExecute    ({traderStatus:response.traderStatus})) {msg += '\tEtbCommandExecute,\n';}
+      if (trader.isHighTemperatureStop  ({traderStatus:response.traderStatus})) {msg += '\tHighTemperatureStop,\n';}
+      if (trader.isNonRecoverableError  ({traderStatus:response.traderStatus})) {msg += '\tNonRecoverableError,\n';}
+      if (trader.isAutoCutterError      ({traderStatus:response.traderStatus})) {msg += '\tAutoCutterError,\n';}
+      if (trader.isBlackMarkError       ({traderStatus:response.traderStatus})) {msg += '\tBlackMarkError,\n';}
+      if (trader.isPaperEnd             ({traderStatus:response.traderStatus})) {msg += '\tPaperEnd,\n';}
+      if (trader.isPaperNearEnd         ({traderStatus:response.traderStatus})) {msg += '\tPaperNearEnd,\n';}
+
+      msg += '\tEtbCounter = ' + trader.extractionEtbCounter({traderStatus:response.traderStatus}).toString() + ' ]\n';
+
+//      msg += 'Status : [ ' + response.status + ' ]\n';
+//      msg += 'ResponseText : [ ' + response.responseText + ' ]\n';
+      alert(msg);
+  }
+
+  trader.onError = function (response) {
+      var msg = '- onError -\n\n';
+      msg += '\tStatus:' + response.status + '\n';
+      msg += '\tResponseText:' + response.responseText + '\n\n';
+      msg += 'Do you want to retry?\n';
+      var answer = confirm(msg);
+      if (answer) {
+          sendMessage(request);
+      }
+      else {
+          hideNowPrinting();
+      }
+  }
+  trader.sendMessage({request:request});
+}
+
+
+
+//---- function de cut
 function cutStringIntoPortions(str, portionLength) {
   const portions = [];
   for (let i = 0; i < str.length; i += portionLength) {
