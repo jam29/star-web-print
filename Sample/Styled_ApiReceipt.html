@@ -57,23 +57,16 @@ function sendMessage(request) {
         msg += '\tEtbCounter = ' + trader.extractionEtbCounter({traderStatus:response.traderStatus}).toString() + ' ]\n';
 
 //      msg += 'Status : [ ' + response.status + ' ]\n';
-//
 //      msg += 'ResponseText : [ ' + response.responseText + ' ]\n';
-
         alert(msg);
     }
 
     trader.onError = function (response) {
         var msg = '- onError -\n\n';
-
         msg += '\tStatus:' + response.status + '\n';
-
         msg += '\tResponseText:' + response.responseText + '\n\n';
-
         msg += 'Do you want to retry?\n';
-
         var answer = confirm(msg);
-
         if (answer) {
             sendMessage(request);
         }
@@ -81,7 +74,6 @@ function sendMessage(request) {
             hideNowPrinting();
         }
     }
-
     trader.sendMessage({request:request});
 }
 
@@ -270,7 +262,7 @@ function onSendAscii() {
             request += builder.createTextElement({characterspace:0});
             break;
     }
-
+console.log(request);alert('attend');
     request += builder.createCutPaperElement({feed:true});
 
     sendMessage(request);

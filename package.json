@@ -1,6 +1,6 @@
 {
   "name": "digitickets.star-web-print",
-  "version": "1.8.0+2",
+  "version": "1.8.0",
   "homepage": "https://starmicronics.com/support/developers/webprnt-sdk/",
   "authors": [
     "Star Micronics"
@@ -22,5 +22,13 @@
     "lib",
     "test",
     "tests"
-  ]
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "dependencies": {
+    "html-base": "^1.4.0",
+    "html-to-text": "^9.0.5"
+  }
 }
