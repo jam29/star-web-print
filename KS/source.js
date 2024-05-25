@@ -9,13 +9,13 @@ const options = {
 //-- fonction sendMessage.
 function sendMessage(request) {
   //showNowPrinting();
-  var url              = document.getElementById('url').value;
-  var papertype        = document.getElementById('papertype').value;
-
-  var trader = new StarWebPrintTrader({url:url, papertype:papertype});
+ 
+  var trader = new StarWebPrintTrader({
+    url:'http://localhost:8001/StarWebPRNT/SendMessage', 
+    papertype:'normal'});
 
   trader.onReceive = function (response) {
-      hideNowPrinting();
+     // hideNowPrinting();
 
       var msg = '- onReceive -\n\n';
 
@@ -53,7 +53,7 @@ function sendMessage(request) {
           sendMessage(request);
       }
       else {
-          hideNowPrinting();
+          //hideNowPrinting();
       }
   }
   trader.sendMessage({request:request});
