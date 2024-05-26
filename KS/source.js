@@ -82,7 +82,7 @@ const portions = cutStringIntoPortions(text, 130);
 var builder = new StarWebPrintBuilder();
 request = '';
 request += builder.createInitializationElement();
-request += builder.createTextElement({characterspace:2});
+request += builder.createTextElement({characterspace:1});
 portions.forEach( ligne => {
   request += builder.createTextElement({data:ligne});
 } )
