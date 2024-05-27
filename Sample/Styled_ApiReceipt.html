@@ -235,9 +235,9 @@ function onSendAscii() {
 
             request += builder.createTextElement({data:'\n'});
 
-            request += builder.createTextElement({data:'Apple                                                     $20.00\n'});
-            request += builder.createTextElement({data:'Banana                                                    $30.00\n'});
-            request += builder.createTextElement({data:'Grape                                                     $40.00\n'});
+            request += builder.createTextElement({data:'   Apple                                                  $20.00\n'});
+            request += builder.createTextElement({data:'   Banana                                                  $30.00\n'});
+            request += builder.createTextElement({data:'   Grape                                                  $40.00\n'});
             request += builder.createTextElement({data:'Lemon                                                     $50.00\n'});
             request += builder.createTextElement({data:'Orange                                                    $60.00\n'});
             request += builder.createTextElement({emphasis:true, data:'Subtotal                                                 $200.00\n'});
@@ -262,7 +262,7 @@ function onSendAscii() {
             request += builder.createTextElement({characterspace:0});
             break;
     }
-//console.log(request);alert('attend');
+console.log(request);alert('attend');
     request += builder.createCutPaperElement({feed:true});
 
     sendMessage(request);
