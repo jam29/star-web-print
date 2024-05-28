@@ -9,7 +9,7 @@ const html = `<section><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 const text = convert(html, options);
 
 //const portions = cutStringIntoPortions(text, 50);
-
+console.log(text);
 let portions = text.match(/.{1,48}/g);
 
-console.log(portions);
+//console.log(portions);
