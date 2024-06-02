@@ -103,9 +103,8 @@ div.childNodes.forEach(node => {
     switch(node.tagName) {
         case 'p': { request += builder.createTextElement({data:node.textContent+'\n'});break;}
         case 'br': { request += builder.createTextElement({data:'\n'});break;}
-        case 'barcode': { alert('barcode');
-            request += builder.createBarcodeElement({symbology:'Code128', width:'width2', height:4,hri:false, data:'012345678901'});break;
-            break;
+        case 'barcode': {
+            request += builder.createBarcodeElement({symbology:'JAN13', width:'width2', height:40,hri:false, data:'012345678901'});break;
         }
         default: {
             console.log("tag "+ node.tagName +" inconnu")
