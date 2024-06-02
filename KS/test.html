@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type='text/javascript' src='StarWebPrintBuilder.js'></script>
+    <script type='text/javascript' src='StarWebPrintTrader.js'></script>
+</head>
+<body>
+    <h1>star webprint pour Kerawen</h1>
+    <script>
+
+function sendMessage(request) {
+  //showNowPrinting();
+ 
+  var trader = new StarWebPrintTrader({
+    url:'http://localhost:8001/StarWebPRNT/SendMessage', 
+    papertype:'normal'});
+
+  trader.onReceive = function (response) {
+     // hideNowPrinting();
+
+      var msg = '- onReceive -\n\n';
+
+      msg += 'TraderSuccess : [ ' + response.traderSuccess + ' ]\n';
+
+//      msg += 'TraderCode : [ ' + response.traderCode + ' ]\n';
+
+      msg += 'TraderStatus : [ ' + response.traderStatus + ',\n';
+
+      if (trader.isCoverOpen            ({traderStatus:response.traderStatus})) {msg += '\tCoverOpen,\n';}
+      if (trader.isOffLine              ({traderStatus:response.traderStatus})) {msg += '\tOffLine,\n';}
+      if (trader.isCompulsionSwitchClose({traderStatus:response.traderStatus})) {msg += '\tCompulsionSwitchClose,\n';}
+      if (trader.isEtbCommandExecute    ({traderStatus:response.traderStatus})) {msg += '\tEtbCommandExecute,\n';}
+      if (trader.isHighTemperatureStop  ({traderStatus:response.traderStatus})) {msg += '\tHighTemperatureStop,\n';}
+      if (trader.isNonRecoverableError  ({traderStatus:response.traderStatus})) {msg += '\tNonRecoverableError,\n';}
+      if (trader.isAutoCutterError      ({traderStatus:response.traderStatus})) {msg += '\tAutoCutterError,\n';}
+      if (trader.isBlackMarkError       ({traderStatus:response.traderStatus})) {msg += '\tBlackMarkError,\n';}
+      if (trader.isPaperEnd             ({traderStatus:response.traderStatus})) {msg += '\tPaperEnd,\n';}
+      if (trader.isPaperNearEnd         ({traderStatus:response.traderStatus})) {msg += '\tPaperNearEnd,\n';}
+
+      msg += '\tEtbCounter = ' + trader.extractionEtbCounter({traderStatus:response.traderStatus}).toString() + ' ]\n';
+
+//      msg += 'Status : [ ' + response.status + ' ]\n';
+//      msg += 'ResponseText : [ ' + response.responseText + ' ]\n';
+      alert(msg);
+  }
+
+  trader.onError = function (response) {
+      var msg = '- onError -\n\n';
+      msg += '\tStatus:' + response.status + '\n';
+      msg += '\tResponseText:' + response.responseText + '\n\n';
+      msg += 'Do you want to retry?\n';
+      var answer = confirm(msg);
+      if (answer) {
+          sendMessage(request);
+      }
+      else {
+          //hideNowPrinting();
+      }
+  }
+  trader.sendMessage({request:request});
+}
+
+//---- function de cut
+function cutStringIntoPortions(str, portionLength) {
+  const portions = [];
+  for (let i = 0; i < str.length; i += portionLength) {
+      portions.push(str.substring(i, i + portionLength));
+  }
+  return portions;
+}
+
+
+
+
+
+        const parser = new DOMParser();
+
+const xmlString = `<section><p>                  Yves Berrou                   </p><p>              44 rue Saint Julien               </p><p>                  49000 Angers                  </p><p>                Tel : 0000000000                </p><p>         Email : yves.berrou@gmail.com          </p><br/><p>26/04/2024 17:41:26                             </p><p>Ticket n° 000031#2 - DUPLICATA</p><br/><p>Qté Article                      P.U.    Total T</p><p>================================================</p><p>  1 Pull imprimé colibri - S    43.08    43.08 A</p><p>    Remise 20%                           -8.62  </p><p>================================================</p><p>TOTAL TTC                                34.46 €</p><br/><p>Nombre d'articles : 1</p><p>Nombre de lignes : 1</p><br/><p>Code Taux                   HT      TVA      TTC</p><p>================================================</p><p> (A) 20.00 %             28.72     5.74    34.46</p><p>================================================</p><br/><p>------------------------------------------------</p><p>Espèces (26/04/2024)                       34.46</p><br/><br/><p>            KerAwen V 2.5.0 - b00007            </p><p>           Service : Yves Berrou (1)            </p><p>                  Caisse 1 (1)                  </p><br/><barcode>                   VJKOKSYVJ                    </barcode><br/><p>------------------------------------------------</p><p>John DOE                                        </p><p>------------------------------------------------</p><p>En magasin                                      </p><p>------------------------------------------------</p><br/><br/><hr/><drawer/><br/></section>`;
+
+// fabrication étiquette mpop et paramétrage
+var builder = new StarWebPrintBuilder();
+request = '';
+request += builder.createInitializationElement();
+request += builder.createTextElement({font:'font_b'});
+request += builder.createTextElement({codepage:'utf8'});
+request += builder.createTextElement({international:'france'});
+request += builder.createTextElement({width:1});
+request += builder.createTextElement({height:1});
+request += builder.createTextElement({characterspace:1});
+request += builder.createAlignmentElement({position:'center'});
+
+// nettoyage du string html 
+// creation de l'arbre à partir du string html
+
+const doc = parser.parseFromString(xmlString, "application/xml");
+// XMLDocument
+const div = doc.querySelector("section");
+div.childNodes.forEach(node => {
+    console.log(node.textContent,node.tagName);
+    switch(node.tagName) {
+        case 'p': { request += builder.createTextElement({data:node.textContent+'\n'});break;}
+        case 'br': { request += builder.createTextElement({data:'\n'});break;}
+        case 'barcode': { 
+            request += builder.createBarcodeElement({symbology:'Code128', width:'width2', height:4,hri:false, data:'012345678901'});break;
+            break;
+        }
+        default: {
+            console.log("tag "+ node.tagName +" inconnu")
+        }
+    }
+});
+console.log(request)
+ 
+    </script>
+</body>
+</html>
