@@ -91,30 +91,10 @@ request += builder.createTextElement({width:1});
 request += builder.createTextElement({height:1});
 request += builder.createTextElement({characterspace:1});
 request += builder.createAlignmentElement({position:'center'});
-
+request += builder.createBarcodeElement({symbology:'Code128', width:'width2', height:40,hri:false, data:'123456789123' });
 // nettoyage du string html 
 // creation de l'arbre à partir du string html
 
-const doc = parser.parseFromString(xmlString, "application/xml");
-// XMLDocument
-const div = doc.querySelector("section");
-div.childNodes.forEach(node => {
-    console.log(node.textContent,node.tagName);
-    switch(node.tagName) {
-        case 'p': { request += builder.createTextElement({data:node.textContent+'\n'});break;}
-        case 'br': { request += builder.createTextElement({data:'\n'});break;}
-        case 'barcode': {
-            request += builder.createBarcodeElement({symbology:'Code128', width:'width2', height:40,hri:false, data:'123456789012' });
-            break;
-        }
-        case 'hr': {
-            request += builder.createCutPaperElement({feed:true});
-        }
-        default: {
-            console.log("tag "+ node.tagName +" inconnu")
-        }
-    }
-});
 console.log(request)
 sendMessage(request);
     </script>
