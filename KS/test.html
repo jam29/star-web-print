@@ -104,12 +104,13 @@ div.childNodes.forEach(node => {
         case 'p': { request += builder.createTextElement({data:node.textContent+'\n'});break;}
         case 'br': { request += builder.createTextElement({data:'\n'});break;}
         case 'barcode': {
-            request += builder.createBarcodeElement({symbology:'Code128', width:'width2', height:40,hri:false, data:'123456789012' });
+            request += builder.createBarcodeElement({symbology:'Code128', width:'width2', height:40,hri:false, data:'123456789123' });
             break;
         }
         case 'hr': {
             request += builder.createCutPaperElement({feed:true});
         }
+        case 'drawer': { console.log('todo')  ; break; }
         default: {
             console.log("tag "+ node.tagName +" inconnu")
         }
