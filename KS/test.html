@@ -104,7 +104,7 @@ div.childNodes.forEach(node => {
         case 'p': { request += builder.createTextElement({data:node.textContent+'\n'});break;}
         case 'br': { request += builder.createTextElement({data:'\n'});break;}
         case 'barcode': {
-            request += builder.createBarcodeElement({symbology:'Code128', width:'width2', height:40,hri:false, data:'123456789123' });
+            request += builder.createBarcodeElement({symbology:'Code128', width:'width2', height:40,hri:false, data:node.textContent });
             break;
         }
         case 'hr': {
