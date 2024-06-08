@@ -80,7 +80,11 @@ function cutStringIntoPortions(str, portionLength) {
 
 const xmlString = `<section><p>                  Yves Berrou                   </p><p>              44 rue Saint Julien               </p><p>                  49000 Angers                  </p><p>                Tel : 0000000000                </p><p>         Email : yves.berrou@gmail.com          </p><br/><p>26/04/2024 17:41:26                             </p><p>Ticket n° 000031#2 - DUPLICATA</p><br/><p>Qté Article                      P.U.    Total T</p><p>================================================</p><p>  1 Pull imprimé colibri - S    43.08    43.08 A</p><p>    Remise 20%                           -8.62  </p><p>================================================</p><p>TOTAL TTC                                34.46 €</p><br/><p>Nombre d'articles : 1</p><p>Nombre de lignes : 1</p><br/><p>Code Taux                   HT      TVA      TTC</p><p>================================================</p><p> (A) 20.00 %             28.72     5.74    34.46</p><p>================================================</p><br/><p>------------------------------------------------</p><p>Espèces (26/04/2024)                       34.46</p><br/><br/><p>            KerAwen V 2.5.0 - b00007            </p><p>           Service : Yves Berrou (1)            </p><p>                  Caisse 1 (1)                  </p><br/><barcode>VJKOKSYVJ</barcode><br/><p>------------------------------------------------</p><p>John DOE                                        </p><p>------------------------------------------------</p><p>En magasin                                      </p><p>------------------------------------------------</p><br/><br/><hr/><drawer/><br/></section>`;
 
+const xmlString2 = `<section><p>             demokerawen              </p><p>        2 rue Georges Pompidou        </p><p>             29202 Brest              </p><p>           Tel : 0257520269           </p><p>    Email : jf.salaun78	&#64;gmail.com     </p><br/><p>31/05/2024 08:41:55                   </p><p>Ticket n° 003098#3 - DUPLICATA</p><br><p>Qté Article            P.U.    Total T</p><p>======================================</p><p>  1 Le grand          29.95    29.95 G</p><p>    livre de la                       </p><p>    cuisine                           </p><p>    japonaise                         </p><br><p>  1 Gigoteuse        100.00   100.00 G</p><p>    éponge 65/90                      </p><p>    cm Lama                           </p><p>    M'Ours Bleu                       </p><p>    - Rouge                        </p><p>    - S                            </p><p>    Ref : reftt                    </p><br/><p>======================================</p><p>TOTAL TTC                     129.95 €</p><br/><p>Nombre d'articles : 2</p><p>Nombre de lignes : 2</p><br><p>Code Taux         HT      TVA      TTC</p><p>======================================</p><p> (G) 20.00    108.29    21.66   129.95</p><p>======================================</p><br/><p>--------------------------------------</p><p>Espèces (31/05/2024)             10.00</p><p>Carte bancaire (31/05/2024)     119.95</p><br><br/><p>       8000000000000000 - 1234A       </p><p>      TVA Intra 810000000000000       </p><p>    KerAwen V 2.8.4.1 - B0000iir5     </p><p>        Service : Caissier 12         </p><p>             Caisse 1 (1)             </p><br/><barcode>CQBGFAWSZ</barcode><br/><p>--------------------------------------</p><p>Jf Salaun²                            </p> <p>Mobile : 0102030405                   </p><p>--------------------------------------</p><p>En magasin                            </p><p>--------------------------------------</p><br><p>Compte prépayé: 157.01 €</p><br><p>Nous vous remercions pour votre visite.!</p><p>  Horaire d'ouverture de la boutique  </p><p>  Lundi et jeudi 14h - 18h </p><p>Mardi-Mercr et Vendr 9h-12h//14h-18h</p><p>Samedi du 1er mars au 1er juillet 9h - 12 h</p><br><br><br><hr><drawer></drawer><br></section>`
+
 // fabrication étiquette mpop et paramétrage
+xmlprop = xmlString2.replace(/<br>/g,"<br\/>").replace(/> </g,"><")
+console.log(xmlprop);
 var builder = new StarWebPrintBuilder();
 request = '';
 request += builder.createInitializationElement();
@@ -95,15 +99,18 @@ request += builder.createAlignmentElement({position:'center'});
 // nettoyage du string html 
 // creation de l'arbre à partir du string html
 
-const doc = parser.parseFromString(xmlString, "application/xml");
+const doc = parser.parseFromString(xmlprop, "application/xml");
 // XMLDocument
 const div = doc.querySelector("section");
 div.childNodes.forEach(node => {
+    node.textContent = node.textContent.substring(0,38)
     console.log(node.textContent,node.tagName);
     switch(node.tagName) {
+        case 'img': {}
         case 'p': { request += builder.createTextElement({data:node.textContent+'\n'});break;}
         case 'br': { request += builder.createTextElement({data:'\n'});break;}
         case 'barcode': {
+            // supprimer les espaces blancs. 
             request += builder.createBarcodeElement({symbology:'Code128', width:'width2', height:40,hri:false, data:node.textContent });
             break;
         }
@@ -117,7 +124,7 @@ div.childNodes.forEach(node => {
     }
 });
 console.log(request)
-sendMessage(request);
+//sendMessage(request);
     </script>
 </body>
 </html>
