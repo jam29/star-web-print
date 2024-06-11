@@ -71,8 +71,9 @@ function onConnect() {
     }
 
     manager.onBarcodeDataReceive      = function(args) {
+        alert(decodeBase64ToString(args.data))
         addExtensionResponse('onBarcodeDataReceive');
-alert(decodeBase64ToString(args.data))
+
         document.getElementById('textarea_readdata').value += decodeBase64ToString(args.data); // + " : " + (args.data);
         document.getElementById('textarea_readdata').scrollTop = document.getElementById('textarea_readdata').scrollHeight;
     }
@@ -168,6 +169,54 @@ function addExtensionResponse(response) {
     document.getElementById('textarea_response').value += time + response + '\n';
     document.getElementById('textarea_response').scrollTop = document.getElementById('textarea_response').scrollHeight;
 }
+
+
+function decodeBase64ToHex(data) {
+    var base64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+
+    var decode = '';
+    var length = data.length;
+
+    for (var i = 0; i < length; i += 4) {
+        var code = ((base64.indexOf(data.charAt(i    )) & 0x3f) << 18)
+                 | ((base64.indexOf(data.charAt(i + 1)) & 0x3f) << 12)
+                 | ((base64.indexOf(data.charAt(i + 2)) & 0x3f) <<  6)
+                 | ( base64.indexOf(data.charAt(i + 3)) & 0x3f);
+
+        decode += makeHexString(((code >> 16) & 0xff).toString(16))
+               +  makeHexString(((code >> 8)  & 0xff).toString(16))
+               +  makeHexString( (code        & 0xff).toString(16));
+    }
+
+    var equals = data.match(/=/g);
+
+    if (equals) {
+        if (equals.length == 2) {
+            return decode.slice(0, -8);    // remove \x00\x00
+        }
+        else if (equals.length == 1) {
+            return decode.slice(0, -4);    // remove \x00
+        }
+    }
+
+    return decode;
+}
+
+function makeHexString(data) {
+    var hexString = '';
+
+    hexString += "\\x";
+
+    if (data.length == 1) {
+        hexString += ('0' + data);
+    }
+    else {
+        hexString += data;
+    }
+
+    return hexString;
+}
+
 
 
 </script>
