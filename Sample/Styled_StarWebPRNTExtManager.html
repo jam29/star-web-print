@@ -73,6 +73,8 @@ function onConnect() {
 
     manager.onBarcodeDataReceive      = function(args) {
         addExtensionResponse('onBarcodeDataReceive');
+        
+        alert(decodeBase64ToString(args.data))
 
         document.getElementById('textarea_readdata').value += decodeBase64ToString(args.data); // + " : " + (args.data);
         document.getElementById('textarea_readdata').scrollTop = document.getElementById('textarea_readdata').scrollHeight;

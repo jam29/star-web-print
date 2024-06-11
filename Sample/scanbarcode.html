@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<!--
+//
+// Star webPRNT Sample(Extension)
+//
+// Version 1.1.0
+//
+// Copyright (C) 2012-2015 STAR MICRONICS CO., LTD. All Rights Reserved.
+//
+-->
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Expires" content="86400">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>StarWebPRNTExtManager Sample</title>
+
+<link href="css/import.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="style.css" media="screen">
+
+<link href="css/style_starwebprntextmanager.css" rel="stylesheet" type="text/css">
+<script type='text/javascript' src='js/StarWebPrintBuilder.js'></script>
+<script type='text/javascript' src='js/StarWebPrintTrader.js'></script>
+<script type='text/javascript' src='js/StarWebPrintExtManager.js'></script>
+<script type='text/javascript'>
+
+var intervalReadData;
+var usingXMLHttpRequest = false;    // to check the using of xmlHttpRequest
+var manager = new StarWebPrintExtManager();    // for peripheral claim management
+
+function onConnect() {
+
+    showNowCommunicating();
+
+    manager.onDataReceive = function(args) {
+        document.getElementById('textarea_readdata').value += decodeBase64ToString(args.data);
+        document.getElementById('textarea_readdata').scrollTop = document.getElementById('textarea_readdata').scrollHeight;
+    }
+
+    manager.onReceive = function(response) {
+        if (response.managerSuccess == 'true' && response.managerClaim == 'true') {
+            document.getElementById('manager_state').innerHTML = '<font color="blue">Connected</font>';
+        }
+        else {
+            document.getElementById('manager_state').innerHTML  = 'Not connected';
+            document.getElementById('printer_status').innerHTML = '-';
+        }
+
+        var msg = 'onReceive {\n';
+        msg += '\tManagerSuccess : [ ' + response.managerSuccess + ' ]\n';
+        msg += '\tManagerCode : [ '    + response.managerCode    + ' ]\n }';
+
+        addExtensionResponse(msg);
+
+        hideNowCommunicating();
+    }
+
+    manager.onError = function(args) {
+        document.getElementById('manager_state').innerHTML  = 'Not connected';
+        document.getElementById('printer_status').innerHTML = '-';
+
+        var msg = 'onError {\n';
+        msg += '\tStatus: '      + args.status       + '\n';
+        msg += '\tResponseText:' + args.responseText + '\n }';
+
+        addExtensionResponse(msg);
+
+        hideNowCommunicating();
+    }
+
+    manager.onBarcodeDataReceive      = function(args) {
+        addExtensionResponse('onBarcodeDataReceive');
+
+        document.getElementById('textarea_readdata').value += decodeBase64ToString(args.data); // + " : " + (args.data);
+        document.getElementById('textarea_readdata').scrollTop = document.getElementById('textarea_readdata').scrollHeight;
+    }
+    manager.onBarcodeReaderConnect    = function() {
+        addExtensionResponse('event : onBarcodeReaderConnect');
+    }
+    manager.onBarcodeReaderDisconnect = function() {
+        addExtensionResponse('event : onBarcodeReaderDisconnect');
+    }
+    manager.onBarcodeReaderImpossible = function() {
+        addExtensionResponse('event : onBarcodeReaderImpossible');
+    }
+    manager.onAccessoryDisconnect     = function() {
+        addExtensionResponse('event : onAccessoryDisconnect');
+    }
+    manager.onAccessoryConnectSuccess = function() {
+        addExtensionResponse('event : onAccessoryConnectSuccess');
+    }
+    manager.onAccessoryConnectFailure = function() {
+        addExtensionResponse('event : onAccessoryConnectFailure');
+    }
+    manager.onPrinterImpossible       = function() {
+        addExtensionResponse('event : onPrinterImpossible');
+    }
+    manager.onPrinterOnline           = function() {
+        addExtensionResponse('event : onPrinterOnline');
+    }
+    manager.onPrinterOffline          = function() {
+        addExtensionResponse('event : onPrinterOffline');
+    }
+    manager.onPrinterPaperReady       = function() {
+        addExtensionResponse('event : onPrinterPaperReady');
+    }
+    manager.onPrinterPaperNearEmpty   = function() {
+        addExtensionResponse('event : onPrinterPaperNearEmpty');
+    }
+    manager.onPrinterPaperEmpty       = function() {
+        addExtensionResponse('event : onPrinterPaperEmpty');
+    }
+    manager.onPrinterCoverOpen        = function() {
+        addExtensionResponse('event : onPrinterCoverOpen');
+    }
+    manager.onPrinterCoverClose       = function() {
+        addExtensionResponse('event : onPrinterCoverClose');
+    }
+    manager.onCashDrawerOpen          = function() {
+        addExtensionResponse('event : onCashDrawerOpen');
+    }
+    manager.onCashDrawerClose         = function() {
+        addExtensionResponse('event : onCashDrawerClose');
+    }
+    manager.onStatusUpdate            = function(args) {
+        addExtensionResponse('event : onStatusUpdate');
+
+        document.getElementById('printer_status').innerHTML = args.status;
+    }
+
+    var url = document.getElementById('url').value;
+    if ( manager.connect({url:url}) == false ) {
+        addExtensionResponse("Already connected or Now communicating.");
+        hideNowCommunicating();
+    }
+
+}
+
+function onDisconnect() {
+    if ( manager.disconnect() == true ) {
+        showNowCommunicating();
+    }
+    else {
+        addExtensionResponse("Already disconnected");
+    }
+}
