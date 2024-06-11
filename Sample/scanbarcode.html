@@ -74,7 +74,7 @@ function onConnect() {
 
     manager.onBarcodeDataReceive      = function(args) {
         
-        alert('ondatareceive')
+        alert(args.data.toString());
 
         addExtensionResponse('onBarcodeDataReceive');
 
