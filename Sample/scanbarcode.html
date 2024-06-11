@@ -67,7 +67,7 @@ function onConnect() {
 
         addExtensionResponse(msg);
 
-        hideNowCommunicating();
+        //hideNowCommunicating();
     }
 
     manager.onBarcodeDataReceive      = function(args) {
@@ -133,7 +133,7 @@ alert(decodeBase64ToString(args.data))
    
     if ( manager.connect({url:"http://localhost:8001/StarWebPRNT/SendExtMessage"}) == false ) {
         addExtensionResponse("Already connected or Now communicating.");
-        hideNowCommunicating();
+       // hideNowCommunicating();
     }
 
 }
