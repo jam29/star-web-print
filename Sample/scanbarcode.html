@@ -30,8 +30,8 @@ var usingXMLHttpRequest = false;    // to check the using of xmlHttpRequest
 var manager = new StarWebPrintExtManager();    // for peripheral claim management
 
 function onConnect() {
-alert('rr');
-    showNowCommunicating();
+
+   // showNowCommunicating();
 
     manager.onDataReceive = function(args) {
         document.getElementById('textarea_readdata').value += decodeBase64ToString(args.data);
