@@ -72,6 +72,7 @@ function onConnect() {
     }
 
     manager.onBarcodeDataReceive      = function(args) {
+        alert(decodeBase64ToString(args.data))
         addExtensionResponse('onBarcodeDataReceive');
 
 
