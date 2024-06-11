@@ -34,12 +34,13 @@ function onConnect() {
    // showNowCommunicating();
 
     manager.onDataReceive = function(args) {
-      
+       alert('ondatareceive')
        document.getElementById('textarea_readdata').value += decodeBase64ToString(args.data);
        document.getElementById('textarea_readdata').scrollTop = document.getElementById('textarea_readdata').scrollHeight;
     }
 
     manager.onReceive = function(response) {
+        alert('onreceive')
         if (response.managerSuccess == 'true' && response.managerClaim == 'true') {
             document.getElementById('manager_state').innerHTML = '<font color="blue">Connected</font>';
         }
@@ -58,6 +59,7 @@ function onConnect() {
     }
 
     manager.onError = function(args) {
+        alert('error')
         document.getElementById('manager_state').innerHTML  = 'Not connected';
         document.getElementById('printer_status').innerHTML = '-';
 
@@ -72,7 +74,7 @@ function onConnect() {
 
     manager.onBarcodeDataReceive      = function(args) {
         
-  
+        alert('ondatareceive')
 
         addExtensionResponse('onBarcodeDataReceive');
 
