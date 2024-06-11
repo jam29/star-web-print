@@ -147,6 +147,15 @@ function onDisconnect() {
     }
 }
 
+
+function adjustDigitAlignment(value, digitNum) {
+    while (value.toString().length < digitNum) {
+        value = '0' + value;
+    }
+    return value;
+}
+
+
 function addExtensionResponse(response) {
     date = new Date();
 
@@ -159,6 +168,7 @@ function addExtensionResponse(response) {
     document.getElementById('textarea_response').value += time + response + '\n';
     document.getElementById('textarea_response').scrollTop = document.getElementById('textarea_response').scrollHeight;
 }
+
 
 onConnect()
 
