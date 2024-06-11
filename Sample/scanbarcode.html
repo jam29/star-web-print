@@ -146,6 +146,20 @@ function onDisconnect() {
         addExtensionResponse("Already disconnected");
     }
 }
+
+function addExtensionResponse(response) {
+    date = new Date();
+
+    hour = adjustDigitAlignment( date.getHours()       , 2);
+    min  = adjustDigitAlignment( date.getMinutes()     , 2);
+    sec  = adjustDigitAlignment( date.getSeconds()     , 2);
+
+    time = hour + ':' + min + ':' + sec + '  ';
+
+    document.getElementById('textarea_response').value += time + response + '\n';
+    document.getElementById('textarea_response').scrollTop = document.getElementById('textarea_response').scrollHeight;
+}
+
 onConnect()
 
 </script>
