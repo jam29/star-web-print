@@ -74,11 +74,9 @@ function onConnect() {
 
     manager.onBarcodeDataReceive      = function(args) {
         
-        alert(decodeBase64ToString(args.data));
+        alert('onBarcodedatareceive')
 
         addExtensionResponse('onBarcodeDataReceive');
-
-        alert(decodeBase64ToString(args.data))
 
         document.getElementById('textarea_readdata').value += decodeBase64ToString(args.data); // + " : " + (args.data);
         document.getElementById('textarea_readdata').scrollTop = document.getElementById('textarea_readdata').scrollHeight;
@@ -234,5 +232,5 @@ function makeHexString(data) {
     <button onclick="onConnect()">Connect</button>
     <p id="manager_state"></p>
     <p id="printer_status"></p>
-    <p id="textarea_response"></p>
+    <textarea id="textarea_response"></textarea>
 </body>
