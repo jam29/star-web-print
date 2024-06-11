@@ -129,8 +129,8 @@ alert('rr');
         document.getElementById('printer_status').innerHTML = args.status;
     }
 
-    var url = document.getElementById('url').value;
-    if ( manager.connect({url:url}) == false ) {
+   
+    if ( manager.connect({url:"http://localhost:8001/StarWebPRNT/SendExtMessage"}) == false ) {
         addExtensionResponse("Already connected or Now communicating.");
         hideNowCommunicating();
     }
