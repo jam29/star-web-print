@@ -76,7 +76,7 @@ function onConnect() {
         
        // alert('onBarcodedatareceive')
 
-        addExtensionResponse('onBarcodeDataReceive');
+        addExtensionResponse('onBarcodeDataReceiven');
 
         document.getElementById('textarea_readdata').value += decodeBase64ToString(args.data); // + " : " + (args.data);
         document.getElementById('textarea_readdata').scrollTop = document.getElementById('textarea_readdata').scrollHeight;
