@@ -34,9 +34,9 @@ function onConnect() {
    // showNowCommunicating();
 
     manager.onDataReceive = function(args) {
-       alert(decodeBase64ToString(args.data))
-      //  document.getElementById('textarea_readdata').value += decodeBase64ToString(args.data);
-      //  document.getElementById('textarea_readdata').scrollTop = document.getElementById('textarea_readdata').scrollHeight;
+      
+       document.getElementById('textarea_readdata').value += decodeBase64ToString(args.data);
+       document.getElementById('textarea_readdata').scrollTop = document.getElementById('textarea_readdata').scrollHeight;
     }
 
     manager.onReceive = function(response) {
@@ -71,8 +71,12 @@ function onConnect() {
     }
 
     manager.onBarcodeDataReceive      = function(args) {
-        alert(decodeBase64ToString(args.data))
+        
+  
+
         addExtensionResponse('onBarcodeDataReceive');
+
+        alert(decodeBase64ToString(args.data))
 
         document.getElementById('textarea_readdata').value += decodeBase64ToString(args.data); // + " : " + (args.data);
         document.getElementById('textarea_readdata').scrollTop = document.getElementById('textarea_readdata').scrollHeight;
@@ -173,7 +177,7 @@ function addExtensionResponse(response) {
 
 function decodeBase64ToHex(data) {
     var base64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-    
+
 
     var decode = '';
     var length = data.length;
