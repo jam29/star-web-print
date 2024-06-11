@@ -59,7 +59,7 @@ function onConnect() {
     }
 
     manager.onError = function(args) {
-        alert('error')
+       
         document.getElementById('manager_state').innerHTML  = 'Not connected';
         document.getElementById('printer_status').innerHTML = '-';
 
@@ -74,7 +74,7 @@ function onConnect() {
 
     manager.onBarcodeDataReceive      = function(args) {
         
-        alert('onBarcodedatareceive')
+       // alert('onBarcodedatareceive')
 
         addExtensionResponse('onBarcodeDataReceive');
 
@@ -232,5 +232,6 @@ function makeHexString(data) {
     <button onclick="onConnect()">Connect</button>
     <p id="manager_state"></p>
     <p id="printer_status"></p>
+    <textarea id="textarea_readdata"></textarea>
     <textarea id="textarea_response"></textarea>
 </body>
