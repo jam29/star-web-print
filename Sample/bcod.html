@@ -257,65 +257,6 @@ function makeHexString(data) {
     return hexString;
 }
 
-
-
-function sendMessage(request) {
-    var url              = document.getElementById('printUrl').value;
-    var papertype        = document.getElementById('papertype').value;
-
-    var trader = new StarWebPrintTrader({url:url, papertype:papertype});
-
-    trader.onReceive = function (response) {
-        hideNowCommunicating();
-
-        var msg = 'onReceive {\n';
-
-        msg += '\tTraderSuccess : [ ' + response.traderSuccess + ' ]\n';
-
-//      msg += 'TraderCode : [ ' + response.traderCode + ' ]\n';
-
-        msg += '\tTraderStatus : [ ' + response.traderStatus + ',\n';
-
-        if (trader.isCoverOpen            ({traderStatus:response.traderStatus})) {msg += '\t\tCoverOpen,\n';}
-        if (trader.isOffLine              ({traderStatus:response.traderStatus})) {msg += '\t\tOffLine,\n';}
-        if (trader.isCompulsionSwitchClose({traderStatus:response.traderStatus})) {msg += '\t\tCompulsionSwitchClose,\n';}
-        if (trader.isEtbCommandExecute    ({traderStatus:response.traderStatus})) {msg += '\t\tEtbCommandExecute,\n';}
-        if (trader.isHighTemperatureStop  ({traderStatus:response.traderStatus})) {msg += '\t\tHighTemperatureStop,\n';}
-        if (trader.isNonRecoverableError  ({traderStatus:response.traderStatus})) {msg += '\t\tNonRecoverableError,\n';}
-        if (trader.isAutoCutterError      ({traderStatus:response.traderStatus})) {msg += '\t\tAutoCutterError,\n';}
-        if (trader.isBlackMarkError       ({traderStatus:response.traderStatus})) {msg += '\t\tBlackMarkError,\n';}
-        if (trader.isPaperEnd             ({traderStatus:response.traderStatus})) {msg += '\t\tPaperEnd,\n';}
-        if (trader.isPaperNearEnd         ({traderStatus:response.traderStatus})) {msg += '\t\tPaperNearEnd,\n';}
-
-        msg += '\t\tEtbCounter = ' + trader.extractionEtbCounter({traderStatus:response.traderStatus}).toString() + ' ]\n';
-
-        msg += ' }';
-
-//      msg += 'Status : [ ' + response.status + ' ]\n';
-//
-//      msg += 'ResponseText : [ ' + response.responseText + ' ]\n';
-
-        addPrintResponse(msg);
-    }
-
-    trader.onError = function (response) {
-        hideNowCommunicating();
-
-        var msg = 'onError {\n';
-
-        msg += '\tStatus:' + response.status + '\n';
-
-        msg += '\tResponseText:' + response.responseText + '\n';
-
-        msg += ' }';
-
-        addPrintResponse(msg);
-    }
-
-    trader.sendMessage({request:request});
-}
-
-
 function nowLoading(){
     document.getElementById('form').style.display="block";
     document.getElementById('overlay').style.display="none";
@@ -345,11 +286,6 @@ window.onload = function() {
 </noscript>
 </head>
 <body>
-
-<header id="global-header">
-<h1><a href="A001.html"><img src="images/logo_01.png" alt="HOME" width="108" height="61"></a></h1>
-<div id="sub-logo"><a href="http://www.star-m.jp/" target="_blank"><img src="images/logo_02.png" alt="" width="120" height="13"></a></div>
-</header>
 
 <section class="btmMg20">
     <h2 class="h2-tit-01 btmMg20">Barcode Scan / Status Manager</h2>
