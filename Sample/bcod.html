@@ -132,8 +132,8 @@ function onConnect() {
         document.getElementById('printer_status').innerHTML = args.status;
     }
 
-    var url = document.getElementById('url').value;
-    if ( manager.connect({url:url}) == false ) {
+   
+    if ( manager.connect({url:"http://localhost:8001/StarWebPRNT/SendExtMessage"}) == false ) {
         addExtensionResponse("Already connected or Now communicating.");
         hideNowCommunicating();
     }
@@ -307,13 +307,6 @@ window.onload = function() {
 
     <form onsubmit='return false;' id="form">
         <div class="container" id="contents">
-
-        <dl>
-            <dt>URL:</dt>
-            <dd>
-                <input id="url" type="text" value="http://localhost:8001/StarWebPRNT/SendExtMessage" />
-            </dd>
-        </dl>
 
         <dl>
             <dt>Extension Function:</dt>
