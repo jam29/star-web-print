@@ -1,14 +1,5 @@
 
 <!DOCTYPE html>
-<!--
-//
-// Star webPRNT Sample(Extension)
-//
-// Version 1.1.0
-//
-// Copyright (C) 2012-2015 STAR MICRONICS CO., LTD. All Rights Reserved.
-//
--->
 <html>
 <head>
 <meta charset="UTF-8">
@@ -20,14 +11,14 @@
 <link rel="stylesheet" href="style.css" media="screen">
 
 <link href="css/style_starwebprntextmanager.css" rel="stylesheet" type="text/css">
-<script type='text/javascript' src='js/StarWebPrintBuilder.js'></script>
+<!--script type='text/javascript' src='js/StarWebPrintBuilder.js'></script-->
 <script type='text/javascript' src='js/StarWebPrintTrader.js'></script>
 <script type='text/javascript' src='js/StarWebPrintExtManager.js'></script>
 <script type='text/javascript'>
-<!--
+
 var intervalReadData;
 
-var usingXMLHttpRequest = false;    // to check the using of xmlHttpRequest
+// var usingXMLHttpRequest = false;    // to check the using of xmlHttpRequest
 
 var manager = new StarWebPrintExtManager();    // for peripheral claim management
 
@@ -57,6 +48,7 @@ function onConnect() {
 
         hideNowCommunicating();
     }
+
 
     manager.onError = function(args) {
         document.getElementById('manager_state').innerHTML  = 'Not connected';
