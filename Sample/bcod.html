@@ -608,63 +608,7 @@ window.onload = function() {
             <input class='appendBtn' type='button' style='width:98%' value='Clear' onclick='onClearText()' />
         </div>
 
-        <hr>
+        
 
-        <dl>
-            <dt>Print sample</dt>
-        </dl>
-        <dl>
-            <dt>Paper Width:</dt>
-            <dd>
-                <select id='paperWidth'>
-                    <option value='inch2' selected='selected'>2 Inch</option>
-                    <option value='inch3'>3 Inch</option>
-                    <option value='inch4'>4 Inch</option>
-                </select>
-            </dd>
-        </dl>
-        <dl>
-            <dt>URL:</dt>
-            <dd>
-            <input id="printUrl" type="text" value="http://localhost:8001/StarWebPRNT/SendMessage"/></dd>
-        </dl>
-        <dl>
-            <dt>Paper Type:</dt>
-            <dd>
-                <select id='papertype'>
-                    <option value='' selected='selected'>-</option>
-                    <option value='normal'>Normal</option>
-                    <option value='black_mark'>Black Mark</option>
-                    <option value='black_mark_and_detect_at_power_on'>Black Mark and Detect at Power On</option>
-                </select>
-            </dd>
-        </dl>
-
-        <div>
-            <input type='button' id='sendBtnAscii' value='Print' style='width:98%; height:40px' onclick='onSendAscii()' />
-        </div>
-
-        <dl>Print Result:</dl>
-        <div>
-            <textarea id='textarea_print_response' style='width:98%; overflow:auto;' rows='10' cols='100' readonly='readonly'></textarea>
-        </div>
-        <div>
-            <input class='appendBtn' type='button' style='width:98%' value='Clear' onclick='onClearPrintText()' />
-        </div>
-
-
-    </div>
-
-
-    </form>
-
-    <div class="to_top">
-        <a href="#global-header">Go to top</a>
-    </div>
-
-<footer id="global-footer" class="clearfix">
-    <a href="https://www.star-m.jp/starwebprnt-oml.html" target="_blank"><img src="images/footer-logo.png" width="123" alt="" id="footer-logo"></a>
-    <img src="images/footer-image.png"height="54" alt=""/>
-</footer>
 </body>
 </html>
